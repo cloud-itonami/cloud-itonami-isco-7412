@@ -1,0 +1,11 @@
+[{:itonami.blueprint/social-impact [:electrical-safety :equipment-reliability :service-continuity]
+  :itonami.blueprint/domain :trades/electrical-mechanics-fitting-service-coordination
+  :itonami.blueprint/required-technologies [:robotics :identity :audit-ledger]
+  :itonami.blueprint/isco-08 "7412"
+  :itonami.blueprint/name "Electrical Mechanics and Fitters Service Coordination Practice"
+  :itonami.blueprint/governor :elecmech-governor
+  :itonami.blueprint/robotics true
+  :db/id -1
+  :itonami.blueprint/status :public-oss
+  :itonami.blueprint/id "cloud-itonami-isco-7412"
+  :itonami.blueprint/license "AGPL-3.0-or-later"}]
