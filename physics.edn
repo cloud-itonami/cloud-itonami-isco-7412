@@ -1,0 +1,44 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:physics` runs it.
+;;
+;; README "Robotics premise": a service scheduling/logistics coordination
+;; robot handles technician scheduling, service-call/parts-usage records and
+;; electrical-parts supply orders for an electrical mechanic/fitter crew
+;; (ISCO 7412). Its physical work: carrying motors and parts between the
+;; service van bay and the workshop, lifting a motor onto the repair bench,
+;; and the varnish bake-out of a rewound stator.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isco-7412"
+ :cases
+ [{:id :motor-from-van-bay
+   :kind :transport
+   :procedure "cart brings a customer's electric motor from the service-van bay to the rewind shop"
+   :params {:mass-kg 60.0 :distance-m 30.0 :v-max-mps 1.0 :a-max-mps2 0.5
+            :brake-decel-mps2 0.8 :drive-force-n 160.0 :crr 0.015
+            :cog-height-m 0.45 :support-half-length-m 0.30 :max-time-s 1200.0}
+   :sweep {:param :payload-kg :values [10.0 40.0 100.0 250.0 500.0]}
+   :quantity :cycle-time-s
+   :limit {:max 45.0 :basis "estimate: one bay-to-shop leg while the van waits"}
+   :boundary {:lo 5.0 :hi 2000.0}}
+  {:id :motor-onto-bench
+   :kind :manipulator
+   :procedure "arm lifts a small motor from the cart onto the repair bench"
+   :params {:l1-m 0.60 :l2-m 0.50 :m1-kg 8.0 :m2-kg 6.0
+            :from [0.60 0.10] :to [0.80 0.40] :duration-s 3.0 :steps 500}
+   :sweep {:param :payload-kg :values [3.0 8.0 12.0 18.0 25.0]}
+   :quantity :peak-tau1-nm
+   :limit {:max 150.0 :basis "estimate: continuous shoulder torque of a 10 kg-payload class collaborative arm at ~1.1 m reach"}
+   :boundary {:lo 0.5 :hi 60.0}}
+  {:id :stator-varnish-bake
+   :kind :thermal
+   :procedure "a rewound, varnish-impregnated stator winding bakes in the 150 C oven until the middle of the winding (insulated symmetry plane) reaches 140 C"
+   :params {:thickness-m 0.03 :conductivity-w-mk 0.8 :density-kg-m3 2500.0 :specific-heat-j-kgk 700.0
+            :t0-c 20.0 :t-hot-c 150.0 :h-front-w-m2k 20.0 :h-back-w-m2k 0.0 :t-back-ambient-c 150.0
+            :threshold-c 140.0 :duration-s 28800.0 :nodes 11}
+   :sweep {:param :thickness-m :values [0.01 0.02 0.03 0.045 0.06]}
+   :quantity :time-to-threshold-s
+   :limit {:max 7200.0 :basis "estimate: two-hour heat-up before the varnish maker's cure time starts; the winding's lumped properties (copper + insulation + varnish) are assumed"}
+   :boundary {:lo 0.005 :hi 0.1}}]}
