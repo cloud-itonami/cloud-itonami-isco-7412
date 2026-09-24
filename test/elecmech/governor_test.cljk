@@ -1,5 +1,5 @@
 (ns elecmech.governor-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [elecmech.store :as store]
             [elecmech.advisor :as advisor]
             [elecmech.governor :as governor]))
