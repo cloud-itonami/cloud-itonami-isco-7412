@@ -1,5 +1,5 @@
 (ns elecmech.actor-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [elecmech.actor :as actor]
             [elecmech.store :as store]))
 
