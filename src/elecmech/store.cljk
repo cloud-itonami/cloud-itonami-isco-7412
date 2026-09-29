@@ -1,7 +1,7 @@
 (ns elecmech.store
   "SSoT for the ISCO-08 7412 Electrical Mechanics and Fitters service
   scheduling/logistics coordination actor (itonami actor pattern,
-  ADR-2607121000 / CLAUDE.md Actors section; README's 'Robotics
+  ADR-2607121000 / AGENTS.md Actors section; README's 'Robotics
   premise' — a service scheduling/logistics coordination robot
   performs service-call scheduling, service-call/parts-usage/
   diagnostic-status record logging and electrical-parts supply-order
